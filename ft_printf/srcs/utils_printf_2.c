@@ -6,7 +6,7 @@
 /*   By: aalahyan <aalahyan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 16:16:33 by aalahyan          #+#    #+#             */
-/*   Updated: 2024/11/09 16:20:41 by aalahyan         ###   ########.fr       */
+/*   Updated: 2024/11/13 17:09:31 by aalahyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,8 @@ void	reverse_string(char *str, int len)
 
 int	is_flag(char c)
 {
-	if (c == '+' || c == '-' || c == ' ' || c == '#' || c == '0')
+	if (c == '+' || c == '-' || c == ' ' || \
+	c == '#' || ft_isdigit(c) || c == '.')
 		return (1);
 	else
 		return (0);
@@ -64,4 +65,15 @@ void	print_persent(t_flags *flags, int *counter)
 			pf_putchar(' ', counter);
 		pf_putchar('%', counter);
 	}
+}
+
+void	get_pad_and_zeros_int(t_flags *flags, int *pad, int *zer, int len)
+{
+	if (flags->precision > len)
+		*zer = flags->precision - len;
+	else if (flags->zero_pad == 1 && flags->precision == -1 \
+	&& flags->field_w > len)
+		*zer = flags->field_w - len;
+	if (flags->field_w > len && flags->field_w > flags->precision)
+		*pad = flags->field_w - len - (*zer);
 }

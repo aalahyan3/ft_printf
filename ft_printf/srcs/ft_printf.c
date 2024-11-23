@@ -6,7 +6,7 @@
 /*   By: aalahyan <aalahyan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 18:01:19 by aalahyan          #+#    #+#             */
-/*   Updated: 2024/11/09 16:12:18 by aalahyan         ###   ########.fr       */
+/*   Updated: 2024/11/09 23:06:07 by aalahyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,11 +29,11 @@ int	ft_printf(const char *format, ...)
 			format++;
 			reset_flags(&flags);
 			manage_flags(args, &flags, (char *)(format), &counter);
-			if (counter == -1)
-				return (-1);
 			while (*format && !is_format(*format))
 				format++;
 		}
+		if (counter == -1)
+			return (-1);
 		if (*format)
 			format++;
 	}

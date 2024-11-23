@@ -6,11 +6,23 @@
 /*   By: aalahyan <aalahyan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/08 14:36:48 by aalahyan          #+#    #+#             */
-/*   Updated: 2024/11/09 16:16:24 by aalahyan         ###   ########.fr       */
+/*   Updated: 2024/11/19 22:54:20 by aalahyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/ft_printf.h"
+
+static void	handle_special_case(t_flags *flags, int *counter)
+{
+	int	i;
+
+	i = 0;
+	while (i < flags->field_w)
+	{
+		pf_putchar(' ', counter);
+		i++;
+	}
+}
 
 static void	print_right_alig(char *str, t_flags *flags, int *counter, int len)
 {
@@ -23,7 +35,7 @@ static void	print_right_alig(char *str, t_flags *flags, int *counter, int len)
 		zeros = flags->precision - len;
 	else if (flags->zero_pad == 1 && flags->field_w > len)
 		zeros = flags->field_w - len;
-	if (flags->field_w > len)
+	if (flags->field_w > len && flags->field_w > flags->precision)
 		padding = flags->field_w - len - zeros;
 	while (padding--)
 		pf_putchar(' ', counter);
@@ -42,9 +54,7 @@ static void	print_left_alig(char *str, t_flags *flags, int *counter, int len)
 	zeros = 0;
 	if (flags->precision > len && flags->precision >= 0)
 		zeros = flags->precision - len;
-	else if (flags->zero_pad == 1 && flags->field_w > len)
-		zeros = flags->field_w - len;
-	if (flags->field_w > len)
+	if (flags->field_w > len && flags->field_w > flags->precision)
 		padding = flags->field_w - len - zeros;
 	while (zeros--)
 		pf_putchar('0', counter);
@@ -60,8 +70,13 @@ void	print_unsigned_number(unsigned int n, t_flags *flags, int *counter)
 	char	buffer[11];
 	int		i;
 
-	ft_strlcpy(decimal, "0123456789", 11);
 	i = 0;
+	if (flags->precision == 0 && n == 0)
+	{
+		handle_special_case(flags, counter);
+		return ;
+	}
+	ft_strlcpy(decimal, "0123456789", 11);
 	if (n == 0)
 		buffer[i++] = '0';
 	while (n)

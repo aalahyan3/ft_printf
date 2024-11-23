@@ -6,7 +6,7 @@
 /*   By: aalahyan <aalahyan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 18:33:29 by aalahyan          #+#    #+#             */
-/*   Updated: 2024/11/09 16:08:07 by aalahyan         ###   ########.fr       */
+/*   Updated: 2024/11/12 22:26:00 by aalahyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,45 +41,51 @@ void	manage_flags(va_list args, t_flags *flags, char *format, int *counter)
 	int	i;
 
 	i = 0;
-	while (format[i] && is_flag(format[i]))
+	while (format[i] && !is_format(format[i]) && is_flag(format[i]))
 	{
-		if (format[i] == '#')
-			flags->hash = 1;
+		if (format[i] == '+')
+			flags->plus = 1;
 		else if (format[i] == '-')
 		{
-			flags->right_alig = 0;
 			flags->left_alig = 1;
+			flags->right_alig = 0;
 		}
-		else if (format[i] == '+')
-			flags->plus = 1;
 		else if (format[i] == ' ')
 			flags->space = 1;
-		else if (format[i] == '0')
-			flags->zero_pad = 1;
+		else if (format[i] == '#')
+			flags->hash = 1;
 		i++;
 	}
-	i += manage_flags_2(flags, format + i);
+	manage_flags_2(flags, format);
 	manage_format(args, flags, format + i, counter);
 }
 
-int	manage_flags_2(t_flags *flags, char *format)
+void	manage_flags_2(t_flags *flags, char *format)
 {
 	int	i;
 
 	i = 0;
-	if (ft_isdigit(format[i]))
+	while (format[i] && !is_format(format[i]) && is_flag(format[i]))
 	{
-		while (ft_isdigit(format[i]))
-			flags->field_w = flags->field_w * 10 + (format[i++] - '0');
-	}
-	if (format[i] == '.')
-	{
+		if (ft_isdigit(format[i]) && format[i] != '0')
+		{
+			flags->field_w = ft_atoi(format + i);
+			while (format[i] && ft_isdigit(format[i]))
+				i++;
+			i--;
+		}
+		else if (format[i] == '0')
+			flags->zero_pad = 1;
+		else if (format[i] == '.')
+		{
+			i++;
+			flags->precision = ft_atoi(format + i);
+			while (format[i] && ft_isdigit(format[i]))
+				i++;
+			i--;
+		}
 		i++;
-		flags->precision = 0;
-		while (ft_isdigit(format[i]))
-			flags->precision = flags->precision * 10 + (format[i++] - '0');
 	}
-	return (i);
 }
 
 void	manage_format(va_list args, t_flags *flags, char *\

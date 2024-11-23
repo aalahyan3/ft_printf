@@ -6,7 +6,7 @@
 /*   By: aalahyan <aalahyan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 15:06:38 by aalahyan          #+#    #+#             */
-/*   Updated: 2024/11/08 17:20:33 by aalahyan         ###   ########.fr       */
+/*   Updated: 2024/11/13 17:26:57 by aalahyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static void	pf_putstr(char *str, int *counter, int len)
 
 static void	print_left_alig(char *str, t_flags *flags, int *counter, int len)
 {
-	int	padding;
+	int		padding;
 
 	padding = 0;
 	if (flags->precision < len && flags->precision >= 0)
@@ -37,25 +37,26 @@ static void	print_left_alig(char *str, t_flags *flags, int *counter, int len)
 	while (padding--)
 	{
 		pf_putchar(' ', counter);
-		if (*counter == -1)
-			return ;
 	}
 }
 
 static void	print_right_alig(char *str, t_flags *flags, int *counter, int len)
 {
-	int	padding;
+	int		padding;
+	char	pad;
 
 	padding = 0;
+	if (flags->zero_pad == 1)
+		pad = '0';
+	else
+		pad = ' ';
 	if (flags->precision < len && flags->precision >= 0)
 		len = flags->precision;
 	if (flags->field_w > len)
 		padding = flags->field_w - len;
 	while (padding--)
 	{
-		pf_putchar(' ', counter);
-		if (*counter == -1)
-			return ;
+		pf_putchar(pad, counter);
 	}
 	pf_putstr(str, counter, len);
 	if (*counter == -1)

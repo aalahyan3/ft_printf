@@ -6,12 +6,12 @@
 #    By: aalahyan <aalahyan@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/06 17:58:06 by aalahyan          #+#    #+#              #
-#    Updated: 2024/11/09 16:12:30 by aalahyan         ###   ########.fr        #
+#    Updated: 2024/11/23 14:55:17 by aalahyan         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC=cc
-CFLAGS= 
+CFLAGS= -Wall -Wextra -Werror
 SRCSIDR= srcs
 LIBFTDIR=libft
 INCLUDESDIR=includes
@@ -30,11 +30,11 @@ OFILES= $(CFILES:.c=.o)
 
 LIBFT=$(LIBFTDIR)/libft.a
 
-%.o: %.c
+%.o: %.c $(HEADERFILE)
 	$(CC) $(CFLAGS) -c $< -o $@
 NAME=libftprintf.a
 
-all: $(NAME)
+all bonus: $(NAME)
 
 $(NAME): $(OFILES) $(LIBFT)
 	cp $(LIBFT) $(NAME)
@@ -49,4 +49,7 @@ clean:
 
 fclean: clean
 	rm -f $(NAME) $(LIBFT)
+
+re : fclean all
+.PHONY: all fclean re clean
 		

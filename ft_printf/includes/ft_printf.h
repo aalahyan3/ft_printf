@@ -6,7 +6,7 @@
 /*   By: aalahyan <aalahyan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 18:01:47 by aalahyan          #+#    #+#             */
-/*   Updated: 2024/11/09 16:09:37 by aalahyan         ###   ########.fr       */
+/*   Updated: 2024/11/13 16:43:38 by aalahyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int		is_format(char c);
 void	reset_flags(t_flags *flags);
 void	manage_format(va_list args, t_flags *flags, \
 						char *specifier, int *counter);
-int		manage_flags_2(t_flags *flags, char *format);
+void	manage_flags_2(t_flags *flags, char *format);
 void	manage_flags(va_list args, t_flags *flags, char *format, int *counter);
 void	pf_putchar(char c, int *counter);
 void	print_character(char c, t_flags *flags, int *counter);
@@ -48,4 +48,5 @@ void	print_adress(void *ptr, t_flags *flags, int *counter);
 void	print_persent(t_flags *flags, int *counter);
 int		is_flag(char c);
 void	print_invalid_flag(char *str, int *counter);
+void	get_pad_and_zeros_int(t_flags *flags, int *pad, int *zer, int len);
 #endif
